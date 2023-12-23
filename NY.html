@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Year Countdown</title>
+    <style>
+        body {
+            background: url(https://images.pexels.com/photos/40663/fireworks-rocket-new-year-s-day-new-year-s-eve-40663.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1) center center fixed;
+            background-size: cover;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden; /* Prevents scrolling on smaller screens */
+        }
+        .container {
+            text-align: center;
+            color: #fff;
+        }
+        .countdown-text {
+            font-size: 48px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            animation: bounce 1s infinite alternate;
+        }
+        .box {
+            font-size: 24px;
+            text-align: center;
+            padding: 10px;
+            margin: 5px;
+            background-color: #3498db;
+            border-radius: 5px;
+            color: #fff;
+            display: inline-block;
+            animation: fadeIn 2s ease-out;
+        }
+        .num {
+            font-size: 36px;
+            font-weight: bold;
+        }
+        .text {
+            font-size: 18px;
+        }
+        .expired {
+            background-color: #e74c3c;
+        }
+        .pulse {
+            animation: pulse 0.5s infinite alternate;
+        }
+        @keyframes pulse {
+            to {
+                transform: scale(1.1);
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        /* Responsive styles */
+        @media only screen and (max-width: 600px) {
+            .box {
+                font-size: 18px;
+            }
+            .num {
+                font-size: 24px;
+            }
+            .text {
+                font-size: 14px;
+            }
+            .countdown-text {
+                font-size: 36px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="countdown-text">Countdown to New Year</div>
+        <div class="box" id="daysBox">
+            <span id="days" class="num"></span>
+            <br>
+            <span class="text">Days</span>
+        </div>
+        <div class="box" id="hoursBox">
+            <span id="hours" class="num"></span>
+            <br>
+            <span class="text">Hours</span>
+        </div>
+        <div class="box" id="minutesBox">
+            <span id="minutes" class="num"></span>
+            <br>
+            <span class="text">Minutes</span>
+        </div>
+        <div class="box" id="secondsBox">
+            <span id="seconds" class="num"></span>
+            <br>
+            <span class="text">Seconds</span>
+        </div>
+    </div>
+
+    <script>
+        var newYear = new Date("January 1, 2024 00:00:00 GMT+0000");
+
+        function countdownTimer() {
+            var currentTime = new Date();
+            var timeDifference = newYear - currentTime;
+
+            if (timeDifference <= 0) {
+                document.getElementById("daysBox").classList.add("expired", "pulse");
+                document.getElementById("hoursBox").classList.add("expired", "pulse");
+                document.getElementById("minutesBox").classList.add("expired", "pulse");
+                document.getElementById("secondsBox").classList.add("expired", "pulse");
+                document.getElementById("days").textContent = 0;
+                document.getElementById("hours").textContent = 0;
+                document.getElementById("minutes").textContent = 0;
+                document.getElementById("seconds").textContent = 0;
+                clearInterval(timerInterval);
+                return;
+            }
+
+            var days = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((timeDifference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((timeDifference % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((timeDifference % (1000 * 60)) / 1000);
+
+            document.getElementById("days").textContent = days;
+            document.getElementById("hours").textContent = hours;
+            document.getElementById("minutes").textContent = minutes;
+            document.getElementById("seconds").textContent = seconds;
+        }
+
+        countdownTimer();
+        var timerInterval = setInterval(countdownTimer, 1000);
+    </script>
+</body>
+</html>
